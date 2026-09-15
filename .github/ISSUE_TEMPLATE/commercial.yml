@@ -1,0 +1,53 @@
+name: Commercial quote
+description: Request paid install help, priority support, or a custom integration quote
+title: "[commercial] "
+labels: ["commercial"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Commercial / paid work** — not a feature request.
+
+        Open-source use stays free (MIT). Use this form for install help, priority support, or a one-off integration.
+
+        Honest ranges (not guarantees): install/help often **$150–$500**; larger integrations are quoted after scope.
+
+        Owner: **M.E.**
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: What do you need?
+      options:
+        - Install / setup help
+        - Priority support
+        - Custom integration / scripting
+        - Other (describe below)
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What environment, job, or workflow are you wrapping? Any deadlines?
+      placeholder: e.g. cron on Ubuntu, CI agent, freelancer client handoff…
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: What does success look like?
+      description: Deliverable you would pay for (one sentence is fine).
+    validations:
+      required: true
+  - type: input
+    id: budget
+    attributes:
+      label: Rough budget (optional)
+      description: e.g. $150–$500 install/help, or “quote larger integration”
+      placeholder: "$150–$500"
+  - type: input
+    id: contact
+    attributes:
+      label: Preferred contact
+      description: GitHub username is enough; email optional if you want a reply off-Issue.
+      placeholder: "@yourhandle or email"

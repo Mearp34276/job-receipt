@@ -6,20 +6,18 @@ Offline CLI for scripts, cron, CI, and agents. Report a completed job → get an
 
 **Owner:** M.E.
 
-## Why this exists (reason to use it)
+## Why use this tomorrow
 
-Most “did it run?” answers are messy logs, screenshots, or a spreadsheet someone forgets to update. Retries double-count. Dashboards need accounts.
+You already run jobs. Clients, tickets, and invoices ask: *did it finish?* Logs lie. Spreadsheets drift. Retries double-count.
 
-`job-receipt` is different:
+| You need | job-receipt gives you |
+|----------|------------------------|
+| Proof for a client / ticket / invoice | Attachable JSON receipt |
+| Safe retries | Idempotent on `(operator, job)` |
+| Something that works offline today | Local files only — no signup |
+| A path to get paid for the work around it | Free tool → **paid support / install** when someone’s stuck |
 
-| Pain | What job-receipt does |
-|------|------------------------|
-| “Did this cron/agent job already succeed?” | Idempotent on `(operator, job)` — safe to retry |
-| “I need proof for a client / ticket / invoice” | Machine-readable JSON receipt you can attach |
-| “I don’t want another cloud meter or wallet” | 100% local — airgap / laptop / CI runner friendly |
-| “I need this today, not after onboarding” | `pip install` → report → done |
-
-**Who it’s for:** freelancers, ops folks, indie hackers, and agent builders who need a **billable or auditable completion proof** without standing up Postgres or Stripe.
+**Who:** freelancers, ops, indie hackers, agent builders who need **billable completion proof** without Postgres or Stripe.
 
 ## Install
 
@@ -29,27 +27,19 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e .
 ```
 
-Or from this repo after clone:
-
-```bash
-cd job-receipt
-pip install -e ".[dev]"
-```
-
 ## Use
 
 ```bash
 # Record completion (safe to retry)
 job-receipt report --operator acme --job invoice-sync-2026-09-16
 
-# List / inspect
 job-receipt list
 job-receipt show <receipt_id>
 ```
 
 Store defaults to `./.job-receipt/` (local files only).
 
-### Example: wrap a script
+### Wrap a script
 
 ```bash
 #!/usr/bin/env bash
@@ -58,25 +48,45 @@ set -euo pipefail
 job-receipt report --operator "$USER" --job "backup-$(date -u +%F)"
 ```
 
+## Earn path (honest)
+
+**Go-live ≠ guaranteed dollars tomorrow.** Publishing opens a door; money comes from real buyers.
+
+| When | What |
+|------|------|
+| **Now (free)** | Use / fork / star — MIT forever for personal and most use |
+| **Commercial** | Open a GitHub Issue with label **`commercial`** (or the Commercial quote template) for priority support, custom install, or a one-off integration |
+| **Sponsors** | Placeholder: https://github.com/sponsors/Mearp34276 — **enable Sponsors on the owner account; link goes live after GitHub approves** |
+| **Later** | Optional hosted inbox — not in this MVP |
+
+### Commercial pricing (honest ranges)
+
+| Offer | Typical range |
+|-------|---------------|
+| Install / setup help | **$150–$500** |
+| Priority support | Quoted |
+| Larger integrations | Quoted after scope |
+
+Details: [docs/COMMERCIAL.md](docs/COMMERCIAL.md). These are estimates for paid work buyers request — **not** income guarantees.
+
+We never claim “install this → $100/day.” Revenue = support, custom work, or hosted extras people ask for.
+
+## Sponsors
+
+If you want to support maintenance without a custom project:
+
+- Link (goes live after GitHub approves Sponsors on the owner account): https://github.com/sponsors/Mearp34276
+- Owner enable steps: [docs/SPONSORS.md](docs/SPONSORS.md)
+
+Sponsors is **not claimed live** until that page shows a real sponsorship profile.
+
 ## What this is / isn’t
 
 | Is | Isn’t |
 |----|--------|
 | Local completion ledger + receipt | A payment rail or wallet |
-| Free open-source utility | A guarantee of income |
-| Proof-of-completion for jobs you already run | Fort Knox / live USDC tolls |
-
-## Commercial / support
-
-Open-source (MIT) is free forever for personal and most use.
-
-**Paid options (when you’re ready to earn from it):**
-
-1. **Priority support / custom install** — open an Issue with label `commercial` or email via GitHub profile  
-2. **GitHub Sponsors** — once enabled on the owner account (link will live here)  
-3. **Hosted inbox (later)** — optional SaaS meter; not in this MVP  
-
-We never claim “install this → $100/day.” Revenue comes from real buyers of support, licenses, or hosted extras.
+| Free open-source utility | Guaranteed income |
+| Proof-of-completion for jobs you run | Fort Knox / live USDC tolls |
 
 ## Compliance note
 
