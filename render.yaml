@@ -10,6 +10,6 @@ services:
     healthCheckPath: /health
     envVars:
       - key: JOB_RECEIPT_STORE
-        value: /var/data/job-receipt
+        value: /data/job-receipt
       - key: JOB_RECEIPT_API_KEY
         sync: false

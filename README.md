@@ -96,39 +96,46 @@ curl -sS http://127.0.0.1:8000/v1/receipts/<receipt_id>
 |----------|---------|------|
 | `JOB_RECEIPT_STORE` | `./.job-receipt` (cwd) | Directory for `receipts.jsonl`. Point this at a mounted volume on PaaS. |
 | `JOB_RECEIPT_API_KEY` | unset | If set, every `/v1/*` request needs `Authorization: Bearer <key>`. `/` and `/health` stay public. |
-| `PORT` | `8000` | Listen port (Render / Railway inject this). |
+| `PORT` | `8080` | Listen port (Fly injects this; local default in the image is 8080). |
 
 Writes and reads under `/v1` share the same optional key so a public demo can stay open (leave the var unset) and a private instance can lock the ledger.
 
-### Deploy (free-tier path)
+### Deploy (Fly.io)
 
-Repo includes `Dockerfile`, `render.yaml`, and `railway.toml`.
+Locked host: **Fly.io**. Repo includes `Dockerfile` + `fly.toml` (suggested app name `job-receipt`). The Fly account that runs these commands owns the app.
 
-**Render (preferred free web service):**
+Install [flyctl](https://fly.io/docs/flyctl/install/), then from this repo:
 
-1. Push this repo to GitHub.
-2. [Render Dashboard](https://dashboard.render.com) → New → Blueprint, or New Web Service from the repo.
-3. `render.yaml` selects Docker + free plan + `/health`.
-4. Set `JOB_RECEIPT_STORE=/var/data/job-receipt`.
-5. Optional: set `JOB_RECEIPT_API_KEY` in the dashboard (`sync: false` in the Blueprint).
-6. Free disks are ephemeral across deploys. For a store that survives, attach a persistent disk at `/var/data` (paid on Render) and keep the same env var.
+```bash
+# Uses the committed fly.toml. --ha=false = one Machine (JSONL is single-writer).
+# If "job-receipt" is taken globally, pass another --name.
+fly launch --copy-config --no-deploy --ha=false --name job-receipt
 
-**Railway:**
+# Smallest persistent disk. Skip this and comment out [mounts] in fly.toml
+# if you accept an ephemeral store (receipts disappear when the Machine is replaced).
+fly volumes create job_receipt_data --size 1
 
-1. New project → deploy from repo (Dockerfile is detected; `railway.toml` sets `/health`).
-2. Set `JOB_RECEIPT_STORE=/var/data/job-receipt`.
-3. Optional: add a volume mounted at `/var/data`, and optional `JOB_RECEIPT_API_KEY`.
+# Optional: lock /v1 routes
+fly secrets set JOB_RECEIPT_API_KEY="$(openssl rand -hex 16)"
+
+fly deploy
+fly apps open
+```
 
 ```bash
 # After deploy
-curl -sS https://YOUR-HOST/health
-curl -sS -X POST https://YOUR-HOST/v1/receipts \
+curl -sS https://job-receipt.fly.dev/health
+curl -sS -X POST https://job-receipt.fly.dev/v1/receipts \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $JOB_RECEIPT_API_KEY" \
   -d '{"operator_id":"acme","job_id":"invoice-sync-2026-09-16"}'
 ```
 
-No Stripe, no billing, no multi-tenant SaaS in this tree.
+`fly.toml` already points `JOB_RECEIPT_STORE` at `/data/job-receipt` on the volume. Keep `fly scale count 1` — two Machines would not share one JSONL file.
+
+**Honest cost note:** Fly’s public trial is short (not an unlimited forever-free allowance). This config uses the smallest shared VM, `auto_stop_machines = "stop"`, and `min_machines_running = 0` so the Machine sleeps when idle. A 1GB volume is the cheapest persistent disk and can incur a small monthly charge after trial. This repo does not bill anyone and does not move funds.
+
+`render.yaml` / `railway.toml` remain as optional extras. Fly is the supported public host.
 
 ## Earn path (honest)
 
