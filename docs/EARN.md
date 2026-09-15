@@ -10,6 +10,6 @@ Goal for Operation Daily Income: ≥ $100/day eventually. **Not a promise for da
 Pick the first door that opens:
 1. Paid install/help Issue (`commercial`) — quote real hours
 2. GitHub Sponsors (owner enables once)
-3. Later: hosted product
+3. Hosted online API (this repo) — still receipts only, no payments
 
 Until a buyer pays, reported revenue = $0. Never invent earnings.
