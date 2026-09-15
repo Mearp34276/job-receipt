@@ -1,0 +1,38 @@
+# Suggested app name: job-receipt (change if that name is taken on Fly).
+# The Fly account that runs `fly launch` / `fly deploy` owns the app.
+# One Machine only — JSONL is a single-writer store.
+
+app = "job-receipt"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  JOB_RECEIPT_STORE = "/data/job-receipt"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[http_service.checks]]
+  grace_period = "15s"
+  interval = "30s"
+  method = "GET"
+  path = "/health"
+  timeout = "5s"
+
+# 1GB volume. Comment this section out for an ephemeral store
+# (receipts vanish when the Machine is replaced).
+[mounts]
+  source = "job_receipt_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+  cpus = 1

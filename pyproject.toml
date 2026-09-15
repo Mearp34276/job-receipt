@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "job-receipt"
-version = "0.1.0"
-description = "Report a completed job once; get an idempotent local receipt. Free, offline, no crypto."
+version = "0.2.0"
+description = "Report a completed job once; get an idempotent receipt. Offline CLI or optional hosted HTTP API. No crypto."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -13,7 +13,13 @@ authors = [{ name = "M.E." }]
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0.0"]
+online = ["fastapi>=0.115.0", "uvicorn>=0.32.0"]
+dev = [
+    "pytest>=8.0.0",
+    "httpx>=0.27.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+]
 
 [project.scripts]
 job-receipt = "job_receipt.cli:main"

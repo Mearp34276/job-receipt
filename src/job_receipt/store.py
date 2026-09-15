@@ -15,7 +15,7 @@ class Receipt:
     job_id: str
     status: str
     created_at: str
-    note: str = "Local receipt only — no payment, no custody, no network call."
+    note: str = "Completion receipt only — no payment, no custody, not a money transmitter."
 
 
 class Store:
@@ -39,7 +39,7 @@ class Store:
             r = Receipt(**data)
             self._by_key[(r.operator_id, r.job_id)] = r
 
-    def report(self, operator_id: str, job_id: str) -> Receipt:
+    def report(self, operator_id: str, job_id: str, *, note: str | None = None) -> Receipt:
         if not operator_id or not job_id:
             raise ValueError("operator_id and job_id are required")
         key = (operator_id, job_id)
@@ -47,12 +47,16 @@ class Store:
             existing = self._by_key.get(key)
             if existing:
                 return existing
+            extra: dict[str, str] = {}
+            if note is not None:
+                extra["note"] = note
             receipt = Receipt(
                 receipt_id=f"rcpt_{uuid4().hex[:16]}",
                 operator_id=operator_id,
                 job_id=job_id,
                 status="recorded",
                 created_at=datetime.now(timezone.utc).isoformat(),
+                **extra,
             )
             with self.path.open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps(asdict(receipt)) + "\n")

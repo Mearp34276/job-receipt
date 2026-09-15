@@ -1,0 +1,15 @@
+# Render Blueprint — free web service style.
+# Persistent disk is optional (paid on Render). Without a disk the
+# JSONL store is ephemeral across deploys; mount a volume at
+# /var/data and keep JOB_RECEIPT_STORE pointed there.
+services:
+  - type: web
+    name: job-receipt
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: JOB_RECEIPT_STORE
+        value: /data/job-receipt
+      - key: JOB_RECEIPT_API_KEY
+        sync: false

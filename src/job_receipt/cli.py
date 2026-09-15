@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from dataclasses import asdict
 from pathlib import Path
 
@@ -13,11 +14,12 @@ def main(argv: list[str] | None = None) -> int:
         prog="job-receipt",
         description="Report a completed job once; get an idempotent local receipt.",
     )
+    env_store = os.environ.get("JOB_RECEIPT_STORE")
     parser.add_argument(
         "--store",
         type=Path,
-        default=None,
-        help="Store directory (default: ./.job-receipt)",
+        default=Path(env_store) if env_store else None,
+        help="Store directory (default: $JOB_RECEIPT_STORE or ./.job-receipt)",
     )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
