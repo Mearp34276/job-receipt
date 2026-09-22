@@ -100,9 +100,11 @@ curl -sS http://127.0.0.1:8000/v1/receipts/<receipt_id>
 
 Writes and reads under `/v1` share the same optional key so a public demo can stay open (leave the var unset) and a private instance can lock the ledger.
 
-### Deploy (Fly.io)
+### Deploy (Fly.io) — optional, after you deploy
 
-Locked host: **Fly.io**. Repo includes `Dockerfile` + `fly.toml` (suggested app name `job-receipt`). The Fly account that runs these commands owns the app.
+Offline CLI (above) is the primary path and works with no host. Fly.io is optional if you want the HTTP API on a machine you control. Repo includes `Dockerfile` + `fly.toml` (suggested app name `job-receipt`). The Fly account that runs these commands owns the app.
+
+**No public hosted demo is claimed live in this README** until a deploy you run resolves and answers `/health`.
 
 Install [flyctl](https://fly.io/docs/flyctl/install/), then from this repo:
 
@@ -123,9 +125,9 @@ fly apps open
 ```
 
 ```bash
-# After deploy
-curl -sS https://job-receipt.fly.dev/health
-curl -sS -X POST https://job-receipt.fly.dev/v1/receipts \
+# Example only — after YOUR deploy succeeds. Replace <your-app> with the name Fly assigned.
+curl -sS https://<your-app>.fly.dev/health
+curl -sS -X POST https://<your-app>.fly.dev/v1/receipts \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $JOB_RECEIPT_API_KEY" \
   -d '{"operator_id":"acme","job_id":"invoice-sync-2026-09-16"}'
@@ -135,7 +137,7 @@ curl -sS -X POST https://job-receipt.fly.dev/v1/receipts \
 
 **Honest cost note:** Fly’s public trial is short (not an unlimited forever-free allowance). This config uses the smallest shared VM, `auto_stop_machines = "stop"`, and `min_machines_running = 0` so the Machine sleeps when idle. A 1GB volume is the cheapest persistent disk and can incur a small monthly charge after trial. This repo does not bill anyone and does not move funds.
 
-`render.yaml` / `railway.toml` remain as optional extras. Fly is the supported public host.
+`render.yaml` / `railway.toml` remain as optional extras. Fly is the suggested host when you choose to deploy — not a live public API in this README.
 
 ## Earn path (honest)
 
