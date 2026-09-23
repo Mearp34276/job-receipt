@@ -12,4 +12,6 @@ Pick the first door that opens:
 2. GitHub Sponsors (owner enables once)
 3. Hosted online API (this repo) — still receipts only, no payments
 
+- Draft launch posts (Show HN + one short Reddit/Indie Hackers-style post): [docs/LAUNCH.md](LAUNCH.md). Drafts only — not posted until M.E. pastes them.
+
 Until a buyer pays, reported revenue = $0. Never invent earnings.

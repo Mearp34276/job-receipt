@@ -179,6 +179,12 @@ Sponsors is **not claimed live** until that page shows a real sponsorship profil
 | Free open-source utility | Guaranteed income |
 | Proof-of-completion for jobs you run | Fort Knox / live USDC tolls |
 
+## Also from M.E.
+
+**Related:** [Fort Knox track](https://github.com/Mearp34276/fort-knox-track) — tracks/trains toll plugin, $0.002 USDC on Base, mock by default. Separate free tool. Not required for job-receipt.
+
+Paid install or integration for this repo: [Commercial quote Issue](https://github.com/Mearp34276/job-receipt/issues/new?template=commercial.yml).
+
 ## Compliance note
 
 **Technical scaffold — not a money-transmitter license, banking charter, or legal advice. Does not move funds. Do not market as guaranteed income.**
