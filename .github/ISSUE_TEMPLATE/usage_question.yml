@@ -1,0 +1,78 @@
+name: Install / usage question
+description: Ask an install or usage question about job-receipt
+title: "[question] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Questions about installing or using job-receipt are welcome. The offline CLI is the default; the HTTP API is optional.
+
+        **Never paste secrets, private keys, tokens, or `.env` contents.** If a command or environment snippet would help, redact those values first.
+
+        Something broken belongs on the Bug report form. Paid install help uses the Commercial quote form.
+  - type: dropdown
+    id: topic
+    attributes:
+      label: What is this about?
+      options:
+        - Install / setup
+        - Offline CLI
+        - Hosted HTTP API
+        - Idempotent receipts
+        - Store path
+        - Docs
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: What are you trying to do, and where did you get stuck? Do not include secrets, private keys, tokens, or `.env` contents.
+      placeholder: I installed the package and I am not sure how to record a completed job…
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you already tried?
+      description: Commands, doc pages, or errors, with secrets, private keys, tokens, and `.env` contents removed.
+      placeholder: Followed the Install section in the README, then ran job-receipt report…
+    validations:
+      required: false
+  - type: input
+    id: python_version
+    attributes:
+      label: Python version
+      description: Output of `python --version`, if this is an install question.
+      placeholder: Python 3.12.3
+    validations:
+      required: false
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: Ubuntu 24.04, macOS 15, Windows 11
+    validations:
+      required: false
+  - type: dropdown
+    id: run_mode
+    attributes:
+      label: How are you running it?
+      description: Helpful context. Offline CLI is the default. Skip if you are not sure.
+      options:
+        - Offline CLI
+        - Local HTTP API
+        - Deployed HTTP API
+        - Not sure
+    validations:
+      required: false
+  - type: checkboxes
+    id: no_secrets
+    attributes:
+      label: Secrets check
+      description: Required before this issue can be filed.
+      options:
+        - label: I did not paste secrets, private keys, tokens, or .env contents
+          required: true
