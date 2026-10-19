@@ -189,6 +189,12 @@ Paid install or integration for this repo: [Commercial quote Issue](https://gith
 
 **Technical scaffold — not a money-transmitter license, banking charter, or legal advice. Does not move funds. Do not market as guaranteed income.**
 
+## Contributing and security
+
+Dev setup, tests, and the existing issue forms: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+How to report a vulnerability: [SECURITY.md](SECURITY.md).
+
 ## License
 
 MIT · Owner: M.E.
